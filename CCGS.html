@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="CCGS: Pointmap Association and Piecewise-Plane Constraint for Consistent and Compact 3D Gaussian Segmentation Field">
+  <title>CCGS</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/PLYLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Pointmap Association and Piecewise-Plane Constraint for Consistent and Compact 3D Gaussian Segmentation Field</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              Wenhao Hu<sup>1</sup>,</span>
+            <span class="author-block">
+              Wenhao Chai<sup>2</sup>,</span>
+            <span class="author-block">
+              Shengyu Hao<sup>1</sup>,
+            </span>
+            <span class="author-block">
+              Xiaotong Cui<sup>1</sup>,
+            </span>
+            <span class="author-block">
+             Xuexiang Wen<sup>1</sup>,
+            </span>
+            <span class="author-block">
+             Gaoang Wang<sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Zhejiang University,</span>
+            <span class="author-block"><sup>2</sup>University of Washington</span>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          Achieving a consistent and compact 3D segmentation field is crucial for maintaining semantic coherence across views and accurately representing scene structures. 
+Previous 3D scene segmentation methods rely on video segmentation models to address inconsistencies across views, but the absence of spatial information often leads to object misassociation when object temporarily disappear and reappear. 
+Furthermore, in the process of 3D scene reconstruction, segmentation and optimization are often treated as separate tasks. As a result,  optimization typically lacks awareness of semantic category information, which can result in floaters with ambiguous segmentation.
+To address these challenges, we introduce CCGS, a method designed to achieve both view-consistent 2D segmentation and a compact 3D Gaussian segmentation field. CCGS incorporates pointmap association and a piecewise-plane constraint.
+First, we establish pixel correspondence between adjacent images by minimizing the Euclidean distance between their pointmaps. We then redefine object mask overlap accordingly. The Hungarian algorithm is employed to optimize mask association by minimizing the total matching cost, while allowing for partial matches.
+To further enhance compactness, the piecewise-plane constraint restricts point displacement within local planes during optimization, thereby preserving structural integrity.
+Experimental results on ScanNet and Replica datasets demonstrate that CCGS outperforms existing methods in both 2D panoptic segmentation and 3D point understanding, excelling in zero-shot scene segmentation tasks.
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section">
+  <!-- Method -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Method</h2>
+          <div class="content">
+            <img 
+              src="./static/images/associate.jpg" 
+              alt="Example Image" 
+              style="width: 100%; max-width: 600px; height: auto; border-radius: 8px;"
+            >
+            <p class="has-text-centered has-text-justified" style="margin-top: 10px; max-width: 800px; margin-left: auto; margin-right: auto;">
+              <em>Differences in mask association: Video vs. Pointmap. Video segmentation often struggle to maintain consistency during significant changes in camera views. 
+                In contrast, constructing a unified 3D point cloud field can ensure segmentation accuracy by leveraging spatial information.</em>
+            </p>
+          </div>
+          <div class="content">
+            <img 
+              src="./static/images/framework.jpg" 
+              alt="Example Image" 
+              style="width: 100%; max-width: 800px; height: auto; border-radius: 8px;"
+            >
+            <p class="has-text-centered has-text-justified" style="margin-top: 10px; max-width: 800px; margin-left: auto; margin-right: auto;">
+              <em> The pipeline of our method. We first establish correspondences between pixels using the pointmaps. Leveraging these relationships, we construct a cost matrix for instance masks across two frames. 
+                The Hungarian algorithm is then applied to optimize the cost matrix, ensuring consistent mask association. By merging all frames, we obtain a point cloud enriched with consistent segmentation information. 
+                This point cloud serves as the initialization for 3D Gaussians. To achieve compact 3D segmentation, we employ a piecewise-plane constraint, restricting point displacement within local planes through plane regularization and split projection.</em>
+            </p>
+          </div>
+        </div>
+      </div>
+  </section>
+
+
+  <section class="section">
+    <!-- Paper video2. -->
+    <style>
+      .video-container {
+        display: flex; /* 使用 flex 布局 */
+        justify-content: space-between; /* 视频之间有间隔 */
+        align-items: center; /* 垂直居中 */
+      }
+    
+      .video-wrapper2 {
+        width: 31%; /* 每个视频占总宽度的 48% */
+        margin: 0 1%; /* 每个视频左右有 1% 的间隔 */
+      }
+    
+      .video-wrapper video {
+        width: 100%; /* 视频宽度占满父容器 */
+        height: auto; /* 自动调整高度以保持宽高比 */
+      }
+    </style>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">2D segmentation</h2>
+        <div class="video-container">
+          <!-- Video 1 -->
+          <div class="video-wrapper2">
+            <video autoplay muted controls width="100%" height="auto">
+              <source src="./rgb_2d.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>CCGS(Ours)</em>
+            </p>
+          </div>
+          <!-- Video 2 -->
+          <div class="video-wrapper2">
+            <video autoplay muted controls width="100%" height="auto">
+              <source src="./CCGS.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>CCGS(Ours)</em>
+            </p>
+          </div>
+          <!-- Video 3 -->
+          <div class="video-wrapper2">
+            <video autoplay muted controls width="100%" height="auto">
+              <source src="./GG.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>Gaussian Grouping</em>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </section>
+
+
+<section>
+  <!--/ point-cloud-ply. -->
+  <style>
+    .point-cloud-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%; /* 容器宽度占满整个父容器 */
+
+    }
+  
+    .point-cloud-row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%; /* 每行点云占满容器宽度 */
+      margin-bottom: 20px; /* 行间距 */
+    }
+  
+    .point-cloud-wrapper {
+      width: 30%; /* 每个点云占总宽度的31%，加上间隔 */
+      margin: 0 1.5%; /* 每个点云左右有1%的间隔 */
+      border: 2px dashed #ccc; /* 虚线框 */
+      padding: 10px; /* 内边距 */
+      text-align: center; /* 标题居中 */
+      box-sizing: border-box; /* 包含边框和内边距 */
+    }
+  
+    canvas {
+      width: 100%;
+      height: auto;
+    }
+  
+    .point-cloud-title {
+      margin-top: 10px; /* 标题与点云的间距 */
+      font-size: 0.9rem; /* 标题字体大小 */
+      color: #333; /* 标题颜色 */
+    }
+  </style>
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-four-fifths">
+      <h2 class="title is-3">3D gaussian segmentation</h2>
+      <div class="point-cloud-container">
+        <!-- 第一行 -->
+        <div class="point-cloud-row">
+          <!-- 第一个点云 -->
+          <div class="point-cloud-wrapper">
+            <canvas id="point-cloud-1"></canvas>
+            <p class="point-cloud-title">Mesh</p>
+          </div>
+          <!-- 第二个点云 -->
+          <div class="point-cloud-wrapper">
+            <canvas id="point-cloud-2"></canvas>
+            <p class="point-cloud-title">Ground Truth</p>
+          </div>
+          <!-- 第三个点云 -->
+          <div class="point-cloud-wrapper">
+            <canvas id="point-cloud-3"></canvas>
+            <p class="point-cloud-title">CCGS(Ours)</p>
+          </div>
+        </div>
+        <!-- 第二行 -->
+        <div class="point-cloud-row">
+          <!-- 第四个点云 -->
+          <div class="point-cloud-wrapper">
+            <canvas id="point-cloud-4"></canvas>
+            <p class="point-cloud-title">Gaussian Grouping</p>
+          </div>
+          <!-- 第五个点云 -->
+          <div class="point-cloud-wrapper">
+            <canvas id="point-cloud-5"></canvas>
+            <p class="point-cloud-title">OpenGaussian(Coarse)</p>
+          </div>
+          <!-- 第六个点云 -->
+          <div class="point-cloud-wrapper">
+            <canvas id="point-cloud-6"></canvas>
+            <p class="point-cloud-title">OpenGaussian(Fine)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  function initPointCloud(canvasId, plyFile) {
+    let camera, scene, renderer, controls;
+
+    const canvas = document.getElementById(canvasId);
+    const context = canvas.getContext("webgl");
+
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setClearColor(0xffffff);
+    renderer.setSize(canvas.width, canvas.height);
+
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.rotateSpeed = 0.5;
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(1, 1, 1).normalize();
+    scene.add(directionalLight);
+
+    const loader = new THREE.PLYLoader();
+    loader.load(plyFile, (geometry) => {
+      const material = new THREE.PointsMaterial({
+        size: 0.1,
+        vertexColors: true
+      });
+
+      const points = new THREE.Points(geometry, material);
+      geometry.center();
+      
+      points.rotation.x = Math.PI; // Math.PI 相当于180度
+
+      const box = new THREE.Box3().setFromObject(points);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+
+      camera.position.copy(center);
+      camera.position.z += 0.5*size.length() ;
+      controls.target.copy(center);
+
+      scene.add(points);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  }
+  // 初始化每个点云
+  initPointCloud("point-cloud-1", "./gt_color.ply");
+  initPointCloud("point-cloud-2", "./gt_seg.ply");
+  initPointCloud("point-cloud-3", "./CCGS1.ply");
+  initPointCloud("point-cloud-4", "./GG.ply");
+  initPointCloud("point-cloud-5", "./opengs_coarse.ply");
+  initPointCloud("point-cloud-6", "./opengs_fine.ply");
+</script>
+<!--/ point-cloud-ply. -->
+
+<section class="section">
+  <!-- Paper video2. -->
+  <style>
+    .video-container {
+      display: flex; /* 使用 flex 布局 */
+      justify-content: space-between; /* 视频之间有间隔 */
+      align-items: center; /* 垂直居中 */
+    }
+  
+    .video-wrapper2 {
+      width: 31%; /* 每个视频占总宽度的 48% */
+      margin: 0 1%; /* 每个视频左右有 1% 的间隔 */
+    }
+  
+    .video-wrapper video {
+      width: 100%; /* 视频宽度占满父容器 */
+      height: auto; /* 自动调整高度以保持宽高比 */
+    }
+  </style>
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-four-fifths">
+      <h2 class="title is-3">Deletion</h2>
+      <div class="video-container">
+        <!-- Video 1 -->
+        <div class="video-wrapper2">
+          <video autoplay muted controls width="100%" height="auto">
+            <source src="./CCGS_del.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered" style="margin-top: 10px;">
+            <em>CCGS(Ours)</em>
+          </p>
+        </div>
+        <!-- Video 2 -->
+        <div class="video-wrapper2">
+          <video autoplay muted controls width="100%" height="auto">
+            <source src="./opengs_del.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered" style="margin-top: 10px;">
+            <em>OpenGaussian</em>
+          </p>
+        </div>
+        <!-- Video 3 -->
+        <div class="video-wrapper2">
+          <video autoplay muted controls width="100%" height="auto">
+            <source src="./GG_del.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered" style="margin-top: 10px;">
+            <em>Gaussian Grouping</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Paper video. -->
+</section>
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This website borrows the template from <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies </a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
