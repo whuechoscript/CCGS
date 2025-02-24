@@ -146,6 +146,11 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
         display: flex; /* 使用 flex 布局 */
         justify-content: space-between; /* 视频之间有间隔 */
         align-items: center; /* 垂直居中 */
+        /* 添加视频硬件加速 */
+        transform: translateZ(0);
+        will-change: transform;
+        /* 预加载设置 */
+        preload="metadata";
       }
     
       .video-wrapper2 {
@@ -358,6 +363,11 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
       gap: 20px;
       flex-wrap: wrap;
       margin: 20px 0;
+      /* 添加视频硬件加速 */
+      transform: translateZ(0);
+      will-change: transform;
+      /* 预加载设置 */
+      preload="metadata";
     }
   
     .video-wrapper2 {
@@ -391,6 +401,11 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
       display: flex;
       justify-content: center; /* 改为居中对齐 */
       align-items: center;
+      /* 添加视频硬件加速 */
+      transform: translateZ(0);
+      will-change: transform;
+      /* 预加载设置 */
+      preload="metadata";
     }
   
     .video-wrapper2 {
