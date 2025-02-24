@@ -66,7 +66,7 @@
              Xuexiang Wen<sup>1</sup>,
             </span>
             <span class="author-block">
-             Jenq-Neng Hwang<sup>2</sup>
+              Jenq-Neng Hwang<sup>2</sup>
             </span>
             <span class="author-block">
              Gaoang Wang<sup>1</sup>
@@ -108,35 +108,40 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
 
 <section class="section">
   <!-- Method -->
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3">Method</h2>
-          <div class="content">
-            <img 
-              src="./static/images/associate.jpg" 
-              alt="Example Image" 
-              style="width: 100%; max-width: 600px; height: auto; border-radius: 8px;"
-            >
-            <p class="has-text-centered has-text-justified" style="margin-top: 10px; max-width: 800px; margin-left: auto; margin-right: auto;">
-              <em>Differences in mask association: Video vs. Pointmap. Video segmentation often struggle to maintain consistency during significant changes in camera views. 
-                In contrast, constructing a unified 3D point cloud field can ensure segmentation accuracy by leveraging spatial information.</em>
-            </p>
-          </div>
-          <div class="content">
-            <img 
-              src="./static/images/framework.jpg" 
-              alt="Example Image" 
-              style="width: 100%; max-width: 800px; height: auto; border-radius: 8px;"
-            >
-            <p class="has-text-centered has-text-justified" style="margin-top: 10px; max-width: 800px; margin-left: auto; margin-right: auto;">
-              <em> The pipeline of our method. We first establish correspondences between pixels using the pointmaps. Leveraging these relationships, we construct a cost matrix for instance masks across two frames. 
-                The Hungarian algorithm is then applied to optimize the cost matrix, ensuring consistent mask association. By merging all frames, we obtain a point cloud enriched with consistent segmentation information. 
-                This point cloud serves as the initialization for 3D Gaussians. To achieve compact 3D segmentation, we employ a piecewise-plane constraint, restricting point displacement within local planes through plane regularization and split projection.</em>
-            </p>
-          </div>
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-four-fifths">
+      <h2 class="title is-3">Method</h2>
+      <div class="content" style="display: flex; flex-direction: column; align-items: center;">
+        <div style="width: 100%; max-width: 916px;">
+          <img 
+            src="./static/images/associate.jpg" 
+            alt="Example Image" 
+            style="width: 100%; height: auto; border-radius: 8px;"
+          >
+          <p class="has-text-centered has-text-justified" style="margin-top: 10px;">
+            <em>Differences in mask association: Video vs. Pointmap. Video segmentation often struggle to maintain consistency during significant changes in camera views. 
+              In contrast, constructing a unified 3D point cloud field can ensure segmentation accuracy by leveraging spatial information.</em>
+          </p>
         </div>
       </div>
-  </section>
+      
+      <div class="content" style="display: flex; flex-direction: column; align-items: center;">
+        <div style="width: 100%; max-width: 916px;">
+          <img 
+            src="./static/images/framework.jpg" 
+            alt="Example Image" 
+            style="width: 100%; height: auto; border-radius: 8px;"
+          >
+          <p class="has-text-centered has-text-justified" style="margin-top: 10px;">
+            <em>The pipeline of our method. We first establish correspondences between pixels using the pointmaps. Leveraging these relationships, we construct a cost matrix for instance masks across two frames. 
+              The Hungarian algorithm is then applied to optimize the cost matrix, ensuring consistent mask association. By merging all frames, we obtain a point cloud enriched with consistent segmentation information. 
+              This point cloud serves as the initialization for 3D Gaussians. To achieve compact 3D segmentation, we employ a piecewise-plane constraint, restricting point displacement within local planes through plane regularization and split projection.</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
   <section class="section">
@@ -198,176 +203,173 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
 
 <section>
   <!--/ point-cloud-ply. -->
-  <style>
-    .point-cloud-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%; /* 容器宽度占满整个父容器 */
-
-    }
-  
-    .point-cloud-row {
-      display: flex;
-      justify-content: space-between;
-      width: 100%; /* 每行点云占满容器宽度 */
-      margin-bottom: 20px; /* 行间距 */
-    }
-  
-    .point-cloud-wrapper {
-      width: 30%; /* 每个点云占总宽度的31%，加上间隔 */
-      margin: 0 1.5%; /* 每个点云左右有1%的间隔 */
-      border: 2px dashed #ccc; /* 虚线框 */
-      padding: 10px; /* 内边距 */
-      text-align: center; /* 标题居中 */
-      box-sizing: border-box; /* 包含边框和内边距 */
-    }
-  
-    canvas {
-      width: 100%;
-      height: auto;
-    }
-  
-    .point-cloud-title {
-      margin-top: 10px; /* 标题与点云的间距 */
-      font-size: 0.9rem; /* 标题字体大小 */
-      color: #333; /* 标题颜色 */
-    }
-  </style>
   <div class="columns is-centered has-text-centered">
     <div class="column is-four-fifths">
       <h2 class="title is-3">3D gaussian segmentation</h2>
-      <div class="point-cloud-container">
-        <!-- 第一行 -->
-        <div class="point-cloud-row">
-          <!-- 第一个点云 -->
-          <div class="point-cloud-wrapper">
-            <canvas id="point-cloud-1"></canvas>
-            <p class="point-cloud-title">Mesh</p>
-          </div>
-          <!-- 第二个点云 -->
-          <div class="point-cloud-wrapper">
-            <canvas id="point-cloud-2"></canvas>
-            <p class="point-cloud-title">Ground Truth</p>
-          </div>
-          <!-- 第三个点云 -->
-          <div class="point-cloud-wrapper">
-            <canvas id="point-cloud-3"></canvas>
-            <p class="point-cloud-title">CCGS(Ours)</p>
-          </div>
+      <div class="container">
+        <div class="row">
+            <div class="viewer-container">
+                <div class="ply-box" id="viewer1"></div>
+                <div class="caption">Mesh</div>
+            </div>
+            <div class="viewer-container">
+                <div class="ply-box" id="viewer2"></div>
+                <div class="caption">Ground Truth</div>
+            </div>
+            <div class="viewer-container">
+                <div class="ply-box" id="viewer3"></div>
+                <div class="caption">CCGS(Ours)</div>
+            </div>
         </div>
-        <!-- 第二行 -->
-        <div class="point-cloud-row">
-          <!-- 第四个点云 -->
-          <div class="point-cloud-wrapper">
-            <canvas id="point-cloud-4"></canvas>
-            <p class="point-cloud-title">Gaussian Grouping</p>
-          </div>
-          <!-- 第五个点云 -->
-          <div class="point-cloud-wrapper">
-            <canvas id="point-cloud-5"></canvas>
-            <p class="point-cloud-title">OpenGaussian(Coarse)</p>
-          </div>
-          <!-- 第六个点云 -->
-          <div class="point-cloud-wrapper">
-            <canvas id="point-cloud-6"></canvas>
-            <p class="point-cloud-title">OpenGaussian(Fine)</p>
-          </div>
+        <div class="row">
+            <div class="viewer-container">
+                <div class="ply-box" id="viewer4"></div>
+                <div class="caption">Gaussian Grouping</div>
+            </div>
+            <div class="viewer-container">
+                <div class="ply-box" id="viewer5"></div>
+                <div class="caption">OpenGaussian(Coarse)</div>
+            </div>
+            <div class="viewer-container">
+                <div class="ply-box" id="viewer6"></div>
+                <div class="caption">OpenGaussian(Fine)</div>
+            </div>
         </div>
       </div>
     </div>
   </div>
-</section>
-<script>
-  function initPointCloud(canvasId, plyFile) {
-    let camera, scene, renderer, controls;
 
-    const canvas = document.getElementById(canvasId);
-    const context = canvas.getContext("webgl");
+  <style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        background-color: white;
+        align-items: center;  /* 添加居中对齐 */
+        margin: 0 auto;  /* 添加水平居中 */
+    }
+    .row {
+        display: flex;
+        gap: 10px;
+    }
+    .ply-box {
+        width: 300px;
+        height: 300px;
+        border: 2px dashed black;  /* 改为虚线边框 */
+        position: relative;
+        background-color: white;
+        padding: 2px;
+        box-sizing: border-box;
+    }
+    .viewer-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+    .caption {
+        margin-top: 5px;
+        text-align: center;
+        font-size: 14px;
+    }
+    canvas {
+        display: block;
+        width: 100% !important;  /* 确保canvas填充容器 */
+        height: 100% !important;
+    }
+  </style>
 
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  <script>
+    function initPointCloud(canvasId, plyFile) {
+      let camera, scene, renderer, controls;
 
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-    renderer.setClearColor(0xffffff);
-    renderer.setSize(canvas.width, canvas.height);
+      const container = document.getElementById(canvasId);
+      
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.rotateSpeed = 0.5;
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setClearColor(0xffffff);
+      renderer.setSize(296, 296);  // 调整尺寸以适应padding
+      container.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-    scene.add(ambientLight);
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.rotateSpeed = 0.5;
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(1, 1, 1).normalize();
-    scene.add(directionalLight);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambientLight);
 
-    const loader = new THREE.PLYLoader();
-    loader.load(plyFile, (geometry) => {
-      const material = new THREE.PointsMaterial({
-        size: 0.1,
-        vertexColors: true
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(1, 1, 1).normalize();
+      scene.add(directionalLight);
+
+      const loader = new THREE.PLYLoader();
+      loader.load(plyFile, (geometry) => {
+        const material = new THREE.PointsMaterial({
+          size: 0.1,
+          vertexColors: true
+        });
+
+        const points = new THREE.Points(geometry, material);
+        geometry.center();
+        
+        points.rotation.x = Math.PI;
+        points.position.y -= 2;  // 调整点云的垂直位置，往上移动
+
+        const box = new THREE.Box3().setFromObject(points);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+
+        camera.position.copy(center);
+        camera.position.z += 0.5 * size.length();
+        camera.position.y -= 2;  // 相应调整相机位置
+        
+        controls.target.copy(center);
+        controls.target.y -= 2;  // 调整控制器目标点
+
+        scene.add(points);
       });
 
-      const points = new THREE.Points(geometry, material);
-      geometry.center();
-      
-      points.rotation.x = Math.PI; // Math.PI 相当于180度
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
 
-      const box = new THREE.Box3().setFromObject(points);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-
-      camera.position.copy(center);
-      camera.position.z += 0.5*size.length() ;
-      controls.target.copy(center);
-
-      scene.add(points);
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
+      animate();
     }
-
-    animate();
-
-    window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  }
-  // 初始化每个点云
-  initPointCloud("point-cloud-1", "./static/pcd/gt_color.ply");
-  initPointCloud("point-cloud-2", "./static/pcd/gt_seg.ply");
-  initPointCloud("point-cloud-3", "./static/pcd/CCGS1.ply");
-  initPointCloud("point-cloud-4", "./static/pcd/GG.ply");
-  initPointCloud("point-cloud-5", "./static/pcd/opengs_coarse.ply");
-  initPointCloud("point-cloud-6", "./static/pcd/opengs_fine.ply");
-</script>
+    
+    // 初始化每个点云
+    initPointCloud("viewer1", "./static/pcd/gt_color.ply");
+    initPointCloud("viewer2", "./static/pcd/gt_seg.ply");
+    initPointCloud("viewer3", "./static/pcd/CCGS1.ply");
+    initPointCloud("viewer4", "./static/pcd/GG.ply");
+    initPointCloud("viewer5", "./static/pcd/opengs_coarse.ply");
+    initPointCloud("viewer6", "./static/pcd/opengs_fine.ply");
+  </script>
+</section>
 <!--/ point-cloud-ply. -->
 
 <section class="section">
   <!-- Paper video2. -->
   <style>
     .video-container {
-      display: flex; /* 使用 flex 布局 */
-      justify-content: space-between; /* 视频之间有间隔 */
-      align-items: center; /* 垂直居中 */
+      display: flex;
+      justify-content: center; /* 改为居中对齐 */
+      align-items: center;
     }
   
     .video-wrapper2 {
-      width: 31%; /* 每个视频占总宽度的 48% */
-      margin: 0 1%; /* 每个视频左右有 1% 的间隔 */
+      width: 300px; /* 改为与点云相同的宽度 */
+      margin: 0 2px; /* 减小间距 */
     }
   
     .video-wrapper video {
-      width: 100%; /* 视频宽度占满父容器 */
-      height: auto; /* 自动调整高度以保持宽高比 */
+      width: 100%;
+      height: auto;
     }
   </style>
   <div class="columns is-centered has-text-centered">
@@ -404,9 +406,62 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
       </div>
     </div>
   </div>
-  <!--/ Paper video. -->
 </section>
 
+<section class="section">
+  <!-- Paper video2. -->
+  <style>
+    .video-container {
+      display: flex;
+      justify-content: center; /* 改为居中对齐 */
+      align-items: center;
+    }
+  
+    .video-wrapper2 {
+      width: 300px; /* 改为与点云相同的宽度 */
+      margin: 0 2px; /* 减小间距 */
+    }
+  
+    .video-wrapper video {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-four-fifths">
+      <h2 class="title is-3">Movement</h2>
+      <div class="video-container">
+        <!-- Video 1 -->
+        <div class="video-wrapper2">
+          <video autoplay muted controls width="100%" height="auto">
+            <source src="./static/video/CCGS_move.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered" style="margin-top: 10px;">
+            <em>CCGS(Ours)</em>
+          </p>
+        </div>
+        <!-- Video 2 -->
+        <div class="video-wrapper2">
+          <video autoplay muted controls width="100%" height="auto">
+            <source src="./static/video/opengs_move.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered" style="margin-top: 10px;">
+            <em>OpenGaussian</em>
+          </p>
+        </div>
+        <!-- Video 3 -->
+        <div class="video-wrapper2">
+          <video autoplay muted controls width="100%" height="auto">
+            <source src="./static/video/GG_move.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered" style="margin-top: 10px;">
+            <em>Gaussian Grouping</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 
