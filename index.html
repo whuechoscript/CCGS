@@ -324,8 +324,9 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
       let camera, scene, renderer, controls;
       let isInitialized = false;
       let animationFrameId = null;
+      let isUserInteracting = false;
+      let lastInteractionTime = Date.now();
 
-      // 延迟初始化函数
       function lazyInit() {
         if (isInitialized) return;
         
@@ -335,16 +336,38 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
 
         renderer = new THREE.WebGLRenderer({ 
           antialias: true,
-          powerPreference: "high-performance"
+          powerPreference: "high-performance",
+          alpha: true,
+          precision: 'mediump'
         });
         renderer.setClearColor(0xffffff);
+        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(296, 296);
         container.appendChild(renderer.domElement);
 
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.rotateSpeed = 0.5;
+        controls.dampingFactor = 0.1;
+        controls.rotateSpeed = 0.8;
+        controls.enableZoom = true;
+        controls.zoomSpeed = 0.8;
+        controls.minDistance = 2;
+        controls.maxDistance = 15;
+        controls.panSpeed = 0.8;
+        controls.touches = {
+          ONE: THREE.TOUCH.ROTATE,
+          TWO: THREE.TOUCH.DOLLY_PAN
+        };
+
+        controls.addEventListener('start', () => {
+          isUserInteracting = true;
+          lastInteractionTime = Date.now();
+        });
+
+        controls.addEventListener('end', () => {
+          isUserInteracting = false;
+          lastInteractionTime = Date.now();
+        });
 
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
         scene.add(ambientLight);
@@ -390,13 +413,22 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
 
       function animate() {
         if (!isInitialized) return;
+
+        const currentTime = Date.now();
+        const timeSinceLastInteraction = currentTime - lastInteractionTime;
         
-        animationFrameId = requestAnimationFrame(animate);
+        if (isUserInteracting || timeSinceLastInteraction < 500) {
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
+          animationFrameId = setTimeout(() => {
+            requestAnimationFrame(animate);
+          }, 16);
+        }
+        
         controls.update();
         renderer.render(scene, camera);
       }
 
-      // 使用 Intersection Observer 进行懒加载，但降低阈值要求
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -404,31 +436,42 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
           }
         });
       }, {
-        threshold: 0.01,  // 降低阈值
-        rootMargin: '50px'  // 添加边距，提前加载
+        threshold: 0.01,
+        rootMargin: '100px'
       });
 
       observer.observe(document.getElementById(canvasId));
 
-      // 添加窗口大小改变的处理
+      let resizeTimeout;
       window.addEventListener('resize', () => {
         if (!isInitialized) return;
         
-        camera.aspect = 1;
-        camera.updateProjectionMatrix();
-        renderer.setSize(296, 296);
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          camera.aspect = 1;
+          camera.updateProjectionMatrix();
+          renderer.setSize(296, 296);
+          renderer.setPixelRatio(window.devicePixelRatio);
+        }, 250);
       });
     }
       
-    // 初始化点云
     document.addEventListener('DOMContentLoaded', () => {
-      // 直接初始化所有查看器
-      initPointCloud("viewer1", "./static/pcd/gt_color.ply");
-      initPointCloud("viewer2", "./static/pcd/gt_seg.ply");
-      initPointCloud("viewer3", "./static/pcd/CCGS1.ply");
-      initPointCloud("viewer4", "./static/pcd/GG.ply");
-      initPointCloud("viewer5", "./static/pcd/opengs_coarse.ply");
-      initPointCloud("viewer6", "./static/pcd/opengs_fine.ply");
+      const viewers = ["viewer1", "viewer2", "viewer3", "viewer4", "viewer5", "viewer6"];
+      const plyFiles = [
+        "./static/pcd/gt_color.ply",
+        "./static/pcd/gt_seg.ply",
+        "./static/pcd/CCGS1.ply",
+        "./static/pcd/GG.ply",
+        "./static/pcd/opengs_coarse.ply",
+        "./static/pcd/opengs_fine.ply"
+      ];
+
+      viewers.forEach((viewerId, index) => {
+        setTimeout(() => {
+          initPointCloud(viewerId, plyFiles[index]);
+        }, index * 50);
+      });
     });
   </script>
 </section>
