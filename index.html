@@ -312,78 +312,124 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
         display: block;
         width: 100% !important;  /* 确保canvas填充容器 */
         height: 100% !important;
+        /* 添加硬件加速 */
+        transform: translateZ(0);
+        will-change: transform;
+        backface-visibility: hidden;
     }
   </style>
 
   <script>
     function initPointCloud(canvasId, plyFile) {
       let camera, scene, renderer, controls;
+      let isInitialized = false;
+      let animationFrameId = null;
 
-      const container = document.getElementById(canvasId);
-      
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+      // 延迟初始化函数
+      function lazyInit() {
+        if (isInitialized) return;
+        
+        const container = document.getElementById(canvasId);
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 
-      renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setClearColor(0xffffff);
-      renderer.setSize(296, 296);  // 调整尺寸以适应padding
-      container.appendChild(renderer.domElement);
-
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.05;
-      controls.rotateSpeed = 0.5;
-
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-      scene.add(ambientLight);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-      directionalLight.position.set(1, 1, 1).normalize();
-      scene.add(directionalLight);
-
-      const loader = new THREE.PLYLoader();
-      loader.load(plyFile, (geometry) => {
-        const material = new THREE.PointsMaterial({
-          size: 0.1,
-          vertexColors: true
+        renderer = new THREE.WebGLRenderer({ 
+          antialias: true,
+          powerPreference: "high-performance"
         });
+        renderer.setClearColor(0xffffff);
+        renderer.setSize(296, 296);
+        container.appendChild(renderer.domElement);
 
-        const points = new THREE.Points(geometry, material);
-        geometry.center();
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.rotateSpeed = 0.5;
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        const loader = new THREE.PLYLoader();
         
-        points.rotation.x = Math.PI;
-        points.position.y -= 2;  // 调整点云的垂直位置，往上移动
+        loader.load(plyFile, (geometry) => {
+          geometry.computeVertexNormals();
+          
+          const material = new THREE.PointsMaterial({
+            size: 0.1,
+            vertexColors: true,
+            sizeAttenuation: true
+          });
 
-        const box = new THREE.Box3().setFromObject(points);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
+          const points = new THREE.Points(geometry, material);
+          geometry.center();
+          
+          points.rotation.x = Math.PI;
+          points.position.y -= 2;
 
-        camera.position.copy(center);
-        camera.position.z += 0.5 * size.length();
-        camera.position.y -= 2;  // 相应调整相机位置
-        
-        controls.target.copy(center);
-        controls.target.y -= 2;  // 调整控制器目标点
+          const box = new THREE.Box3().setFromObject(points);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
 
-        scene.add(points);
-      });
+          camera.position.copy(center);
+          camera.position.z += 0.5 * size.length();
+          camera.position.y -= 2;
+          
+          controls.target.copy(center);
+          controls.target.y -= 2;
+
+          scene.add(points);
+          
+          isInitialized = true;
+          animate();
+        });
+      }
 
       function animate() {
-        requestAnimationFrame(animate);
+        if (!isInitialized) return;
+        
+        animationFrameId = requestAnimationFrame(animate);
         controls.update();
         renderer.render(scene, camera);
       }
 
-      animate();
+      // 使用 Intersection Observer 进行懒加载，但降低阈值要求
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            lazyInit();
+          }
+        });
+      }, {
+        threshold: 0.01,  // 降低阈值
+        rootMargin: '50px'  // 添加边距，提前加载
+      });
+
+      observer.observe(document.getElementById(canvasId));
+
+      // 添加窗口大小改变的处理
+      window.addEventListener('resize', () => {
+        if (!isInitialized) return;
+        
+        camera.aspect = 1;
+        camera.updateProjectionMatrix();
+        renderer.setSize(296, 296);
+      });
     }
-    
-    // 初始化每个点云
-    initPointCloud("viewer1", "./static/pcd/gt_color.ply");
-    initPointCloud("viewer2", "./static/pcd/gt_seg.ply");
-    initPointCloud("viewer3", "./static/pcd/CCGS1.ply");
-    initPointCloud("viewer4", "./static/pcd/GG.ply");
-    initPointCloud("viewer5", "./static/pcd/opengs_coarse.ply");
-    initPointCloud("viewer6", "./static/pcd/opengs_fine.ply");
+      
+    // 初始化点云
+    document.addEventListener('DOMContentLoaded', () => {
+      // 直接初始化所有查看器
+      initPointCloud("viewer1", "./static/pcd/gt_color.ply");
+      initPointCloud("viewer2", "./static/pcd/gt_seg.ply");
+      initPointCloud("viewer3", "./static/pcd/CCGS1.ply");
+      initPointCloud("viewer4", "./static/pcd/GG.ply");
+      initPointCloud("viewer5", "./static/pcd/opengs_coarse.ply");
+      initPointCloud("viewer6", "./static/pcd/opengs_fine.ply");
+    });
   </script>
 </section>
 <!--/ point-cloud-ply. -->
