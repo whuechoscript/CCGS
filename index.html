@@ -353,6 +353,42 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
   <style>
     .video-container {
       display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+  
+    .video-wrapper2 {
+      flex: 0 1 300px;
+    }
+  
+    .video-wrapper2 video {
+      width: 100%;
+      height: auto;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transform: translateZ(0);
+      will-change: transform;
+      backface-visibility: hidden;
+      perspective: 1000;
+    }
+
+    /* 移动设备优化 */
+    @media (max-width: 768px) {
+      .video-wrapper2 video {
+        width: 240px;
+      }
+    }
+  </style>
+
+
+
+<section class="section">
+  <!-- Paper video2. -->
+  <style>
+    .video-container {
+      display: flex;
       justify-content: center; /* 改为居中对齐 */
       align-items: center;
     }
@@ -403,50 +439,58 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
   </div>
 </section>
 
-<section class="section">
-  <!-- Paper video2. -->
-  <style>
-    .video-container {
-      display: flex;
-      justify-content: center; /* 改为居中对齐 */
-      align-items: center;
-    }
-  
-    .video-wrapper2 {
-      width: 300px; /* 改为与点云相同的宽度 */
-      margin: 0 2px; /* 减小间距 */
-    }
-  
-    .video-wrapper video {
-      width: 100%;
-      height: auto;
-    }
-  </style>
-  <div class="columns is-centered has-text-centered">
-    <div class="column is-four-fifths">
+<div class="columns is-centered has-text-centered">
+  <div class="column is-four-fifths">
+    <div class="content-container">
       <h2 class="title is-3">Movement</h2>
       <div class="video-container">
         <!-- Video 1 -->
         <div class="video-wrapper2">
-          <video autoplay muted controls width="100%" height="auto">
+          <video 
+            playsinline 
+            autoplay 
+            muted 
+            loop
+            controls
+            preload="metadata"
+            loading="lazy"
+          >
             <source src="./static/video/CCGS_move.mp4" type="video/mp4">
           </video>
           <p class="has-text-centered" style="margin-top: 10px;">
             <em>CCGS(Ours)</em>
           </p>
         </div>
+
         <!-- Video 2 -->
         <div class="video-wrapper2">
-          <video autoplay muted controls width="100%" height="auto">
+          <video 
+            playsinline 
+            autoplay 
+            muted 
+            loop
+            controls
+            preload="metadata"
+            loading="lazy"
+          >
             <source src="./static/video/opengs_move.mp4" type="video/mp4">
           </video>
           <p class="has-text-centered" style="margin-top: 10px;">
             <em>OpenGaussian</em>
           </p>
         </div>
+
         <!-- Video 3 -->
         <div class="video-wrapper2">
-          <video autoplay muted controls width="100%" height="auto">
+          <video 
+            playsinline 
+            autoplay 
+            muted 
+            loop
+            controls
+            preload="metadata"
+            loading="lazy"
+          >
             <source src="./static/video/GG_move.mp4" type="video/mp4">
           </video>
           <p class="has-text-centered" style="margin-top: 10px;">
@@ -456,10 +500,8 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
       </div>
     </div>
   </div>
+</div>
 </section>
-
-
-
 <footer class="footer">
   <div class="container">
     <div class="columns is-centered">
