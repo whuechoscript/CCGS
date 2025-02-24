@@ -138,38 +138,58 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
       </div>
   </section>
 
+<style>
+  /* 统一的视频容器样式 */
+  .video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
 
-  <section class="section">
-    <!-- Paper video2. -->
-    <style>
-      .video-container {
-        display: flex; /* 使用 flex 布局 */
-        justify-content: space-between; /* 视频之间有间隔 */
-        align-items: center; /* 垂直居中 */
-        /* 添加视频硬件加速 */
-        transform: translateZ(0);
-        will-change: transform;
-        /* 预加载设置 */
-        preload="metadata";
-      }
-    
-      .video-wrapper2 {
-        width: 31%; /* 每个视频占总宽度的 48% */
-        margin: 0 1%; /* 每个视频左右有 1% 的间隔 */
-      }
-    
-      .video-wrapper video {
-        width: 100%; /* 视频宽度占满父容器 */
-        height: auto; /* 自动调整高度以保持宽高比 */
-      }
-    </style>
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">2D segmentation</h2>
+  .video-wrapper2 {
+    flex: 0 1 300px;
+  }
+
+  .video-wrapper2 video {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* 性能优化 */
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000;
+  }
+
+  /* 移动设备优化 */
+  @media (max-width: 768px) {
+    .video-wrapper2 video {
+      width: 240px;
+    }
+  }
+</style>
+
+<!-- 2D Segmentation Section -->
+<section class="section">
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-four-fifths">
+      <div class="content-container">
+        <h2 class="title is-3">2D Segmentation</h2>
         <div class="video-container">
           <!-- Video 1 -->
           <div class="video-wrapper2">
-            <video autoplay muted controls width="100%" height="auto">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
               <source src="./static/video/rgb_2d.mp4" type="video/mp4">
             </video>
             <p class="has-text-centered" style="margin-top: 10px;">
@@ -178,7 +198,15 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
           </div>
           <!-- Video 2 -->
           <div class="video-wrapper2">
-            <video autoplay muted controls width="100%" height="auto">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
               <source src="./static/video/CCGS.mp4" type="video/mp4">
             </video>
             <p class="has-text-centered" style="margin-top: 10px;">
@@ -187,7 +215,15 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
           </div>
           <!-- Video 3 -->
           <div class="video-wrapper2">
-            <video autoplay muted controls width="100%" height="auto">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
               <source src="./static/video/GG.mp4" type="video/mp4">
             </video>
             <p class="has-text-centered" style="margin-top: 10px;">
@@ -197,9 +233,8 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
         </div>
       </div>
     </div>
-    <!--/ Paper video. -->
-  </section>
-
+  </div>
+</section>
 
 <section>
   <!--/ point-cloud-ply. -->
@@ -353,170 +388,134 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
 </section>
 <!--/ point-cloud-ply. -->
 
+<!-- Deletion Section -->
 <section class="section">
-  <!-- Paper video2. -->
-  <style>
-    .video-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin: 20px 0;
-      /* 添加视频硬件加速 */
-      transform: translateZ(0);
-      will-change: transform;
-      /* 预加载设置 */
-      preload="metadata";
-    }
-  
-    .video-wrapper2 {
-      flex: 0 1 300px;
-    }
-  
-    .video-wrapper2 video {
-      width: 100%;
-      height: auto;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transform: translateZ(0);
-      will-change: transform;
-      backface-visibility: hidden;
-      perspective: 1000;
-    }
-
-    /* 移动设备优化 */
-    @media (max-width: 768px) {
-      .video-wrapper2 video {
-        width: 240px;
-      }
-    }
-  </style>
-
-
-
-<section class="section">
-  <!-- Paper video2. -->
-  <style>
-    .video-container {
-      display: flex;
-      justify-content: center; /* 改为居中对齐 */
-      align-items: center;
-      /* 添加视频硬件加速 */
-      transform: translateZ(0);
-      will-change: transform;
-      /* 预加载设置 */
-      preload="metadata";
-    }
-  
-    .video-wrapper2 {
-      width: 300px; /* 改为与点云相同的宽度 */
-      margin: 0 2px; /* 减小间距 */
-    }
-  
-    .video-wrapper video {
-      width: 100%;
-      height: auto;
-    }
-  </style>
   <div class="columns is-centered has-text-centered">
     <div class="column is-four-fifths">
-      <h2 class="title is-3">Deletion</h2>
-      <div class="video-container">
-        <!-- Video 1 -->
-        <div class="video-wrapper2">
-          <video autoplay muted controls width="100%" height="auto">
-            <source src="./static/video/CCGS_del.mp4" type="video/mp4">
-          </video>
-          <p class="has-text-centered" style="margin-top: 10px;">
-            <em>CCGS(Ours)</em>
-          </p>
-        </div>
-        <!-- Video 2 -->
-        <div class="video-wrapper2">
-          <video autoplay muted controls width="100%" height="auto">
-            <source src="./static/video/opengs_del.mp4" type="video/mp4">
-          </video>
-          <p class="has-text-centered" style="margin-top: 10px;">
-            <em>OpenGaussian</em>
-          </p>
-        </div>
-        <!-- Video 3 -->
-        <div class="video-wrapper2">
-          <video autoplay muted controls width="100%" height="auto">
-            <source src="./static/video/GG_del.mp4" type="video/mp4">
-          </video>
-          <p class="has-text-centered" style="margin-top: 10px;">
-            <em>Gaussian Grouping</em>
-          </p>
+      <div class="content-container">
+        <h2 class="title is-3">Deletion</h2>
+        <div class="video-container">
+          <!-- Video 1 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/CCGS_del.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>CCGS(Ours)</em>
+            </p>
+          </div>
+          <!-- Video 2 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/opengs_del.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>OpenGaussian</em>
+            </p>
+          </div>
+          <!-- Video 3 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/GG_del.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>Gaussian Grouping</em>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="columns is-centered has-text-centered">
-  <div class="column is-four-fifths">
-    <div class="content-container">
-      <h2 class="title is-3">Movement</h2>
-      <div class="video-container">
-        <!-- Video 1 -->
-        <div class="video-wrapper2">
-          <video 
-            playsinline 
-            autoplay 
-            muted 
-            loop
-            controls
-            preload="metadata"
-            loading="lazy"
-          >
-            <source src="./static/video/CCGS_move.mp4" type="video/mp4">
-          </video>
-          <p class="has-text-centered" style="margin-top: 10px;">
-            <em>CCGS(Ours)</em>
-          </p>
-        </div>
-
-        <!-- Video 2 -->
-        <div class="video-wrapper2">
-          <video 
-            playsinline 
-            autoplay 
-            muted 
-            loop
-            controls
-            preload="metadata"
-            loading="lazy"
-          >
-            <source src="./static/video/opengs_move.mp4" type="video/mp4">
-          </video>
-          <p class="has-text-centered" style="margin-top: 10px;">
-            <em>OpenGaussian</em>
-          </p>
-        </div>
-
-        <!-- Video 3 -->
-        <div class="video-wrapper2">
-          <video 
-            playsinline 
-            autoplay 
-            muted 
-            loop
-            controls
-            preload="metadata"
-            loading="lazy"
-          >
-            <source src="./static/video/GG_move.mp4" type="video/mp4">
-          </video>
-          <p class="has-text-centered" style="margin-top: 10px;">
-            <em>Gaussian Grouping</em>
-          </p>
+<!-- Movement Section -->
+<section class="section">
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-four-fifths">
+      <div class="content-container">
+        <h2 class="title is-3">Movement</h2>
+        <div class="video-container">
+          <!-- Video 1 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/CCGS_move.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>CCGS(Ours)</em>
+            </p>
+          </div>
+          <!-- Video 2 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/opengs_move.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>OpenGaussian</em>
+            </p>
+          </div>
+          <!-- Video 3 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/GG_move.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>Gaussian Grouping</em>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </section>
+
 <footer class="footer">
   <div class="container">
     <div class="columns is-centered">
@@ -536,6 +535,42 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
     </div>
   </div>
 </footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 为每个视频添加预加载和错误处理
+    const videos = document.querySelectorAll('video');
+    
+    function preloadImage(url) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(url);
+        img.onerror = reject;
+        img.src = url;
+      });
+    }
+
+    videos.forEach(video => {
+      const videoSrc = video.querySelector('source').src;
+      const posterSrc = videoSrc.replace('.mp4', '.jpg');
+      
+      async function initVideo() {
+        try {
+          await preloadImage(posterSrc);
+          video.poster = posterSrc;
+          video.load();
+          video.play().catch(console.error);
+        } catch (error) {
+          console.error('Poster load failed:', error);
+          video.load();
+          video.play().catch(console.error);
+        }
+      }
+      
+      initVideo();
+    });
+  });
+</script>
 
 </body>
 </html>
