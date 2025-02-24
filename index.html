@@ -108,40 +108,35 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
 
 <section class="section">
   <!-- Method -->
-  <div class="columns is-centered has-text-centered">
-    <div class="column is-four-fifths">
-      <h2 class="title is-3">Method</h2>
-      <div class="content" style="display: flex; flex-direction: column; align-items: center;">
-        <div style="width: 100%; max-width: 916px;">
-          <img 
-            src="./static/images/associate.jpg" 
-            alt="Example Image" 
-            style="width: 100%; height: auto; border-radius: 8px;"
-          >
-          <p class="has-text-centered has-text-justified" style="margin-top: 10px;">
-            <em>Differences in mask association: Video vs. Pointmap. Video segmentation often struggle to maintain consistency during significant changes in camera views. 
-              In contrast, constructing a unified 3D point cloud field can ensure segmentation accuracy by leveraging spatial information.</em>
-          </p>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Method</h2>
+          <div class="content">
+            <img 
+              src="./static/images/associate.jpg" 
+              alt="Example Image" 
+              style="width: 100%; max-width: 700px; height: auto; border-radius: 8px;"
+            >
+            <p class="has-text-centered has-text-justified" style="margin-top: 10px; max-width: 916px; margin-left: auto; margin-right: auto;">
+              <em>Differences in mask association: Video vs. Pointmap. Video segmentation often struggle to maintain consistency during significant changes in camera views. 
+                In contrast, constructing a unified 3D point cloud field can ensure segmentation accuracy by leveraging spatial information.</em>
+            </p>
+          </div>
+          <div class="content">
+            <img 
+              src="./static/images/framework.jpg" 
+              alt="Example Image" 
+              style="width: 100%; max-width: 916px; height: auto; border-radius: 8px;"
+            >
+            <p class="has-text-centered has-text-justified" style="margin-top: 10px; max-width: 916px; margin-left: auto; margin-right: auto;">
+              <em> The pipeline of our method. We first establish correspondences between pixels using the pointmaps. Leveraging these relationships, we construct a cost matrix for instance masks across two frames. 
+                The Hungarian algorithm is then applied to optimize the cost matrix, ensuring consistent mask association. By merging all frames, we obtain a point cloud enriched with consistent segmentation information. 
+                This point cloud serves as the initialization for 3D Gaussians. To achieve compact 3D segmentation, we employ a piecewise-plane constraint, restricting point displacement within local planes through plane regularization and split projection.</em>
+            </p>
+          </div>
         </div>
       </div>
-      
-      <div class="content" style="display: flex; flex-direction: column; align-items: center;">
-        <div style="width: 100%; max-width: 916px;">
-          <img 
-            src="./static/images/framework.jpg" 
-            alt="Example Image" 
-            style="width: 100%; height: auto; border-radius: 8px;"
-          >
-          <p class="has-text-centered has-text-justified" style="margin-top: 10px;">
-            <em>The pipeline of our method. We first establish correspondences between pixels using the pointmaps. Leveraging these relationships, we construct a cost matrix for instance masks across two frames. 
-              The Hungarian algorithm is then applied to optimize the cost matrix, ensuring consistent mask association. By merging all frames, we obtain a point cloud enriched with consistent segmentation information. 
-              This point cloud serves as the initialization for 3D Gaussians. To achieve compact 3D segmentation, we employ a piecewise-plane constraint, restricting point displacement within local planes through plane regularization and split projection.</em>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
 
   <section class="section">
