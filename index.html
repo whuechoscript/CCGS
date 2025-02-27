@@ -78,14 +78,36 @@
             <span class="author-block"><sup>2</sup>University of Washington</span>
           </div>
 
-
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2502.16303"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2502.16303"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" style="padding-top: 1rem;">
   <div class="container is-max-desktop">
     <!-- Abstract. -->
     <div class="columns is-centered has-text-centered">
@@ -129,9 +151,9 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               style="width: 100%; max-width: 916px; height: auto; border-radius: 8px;"
             >
             <p class="has-text-centered has-text-justified" style="margin-top: 10px; max-width: 916px; margin-left: auto; margin-right: auto;">
-              <em> The pipeline of our method. We first establish correspondences between pixels using the pointmaps. Leveraging these relationships, we construct a cost matrix for instance masks across two frames. 
-                The Hungarian algorithm is then applied to optimize the cost matrix, ensuring consistent mask association. By merging all frames, we obtain a point cloud enriched with consistent segmentation information. 
-                This point cloud serves as the initialization for 3D Gaussians. To achieve compact 3D segmentation, we employ a piecewise-plane constraint, restricting point displacement within local planes through plane regularization and split projection.</em>
+              <em>The pipeline of our method. (a) We first construct a unified point cloud field and establish correspondences between pixels using the pointmaps. 
+                (b) Leveraging these relationships, we construct a cost matrix for instance masks across two frames. The Hungarian algorithm is then applied to optimize the cost matrix, ensuring consistent mask association. By merging all frames, we obtain a point cloud enriched with consistent segmentation information. 
+                (c) This point cloud serves as the initialization for 3D Gaussians. To achieve compact 3D segmentation, we employ a piecewise-plane constraint, restricting point displacement within local planes through plane regularization and split projection.</em>
             </p>
           </div>
         </div>
@@ -139,7 +161,23 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
   </section>
 
 <style>
-  /* 统一的视频容器样式 */
+  /* Movement section specific video container */
+  .movement-video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;  /* Reduced from 20px */
+    flex-wrap: wrap;
+    margin: 20px 0;
+    max-width: 916px;  /* Match the width of other sections */
+    margin: 0 auto;
+  }
+
+  .movement-video-container .video-wrapper2 {
+    flex: 0 1 220px;
+  }
+
+  /* Keep existing video styles */
   .video-container {
     display: flex;
     justify-content: center;
@@ -157,14 +195,12 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
     width: 100%;
     height: auto;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    /* 性能优化 */
     transform: translateZ(0);
     will-change: transform;
     backface-visibility: hidden;
     perspective: 1000;
   }
 
-  /* 移动设备优化 */
   @media (max-width: 768px) {
     .video-wrapper2 video {
       width: 240px;
@@ -190,10 +226,10 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               preload="metadata"
               loading="lazy"
             >
-              <source src="./static/video/rgb_2d.mp4" type="video/mp4">
+              <source src="./static/video/rgb_0.mp4" type="video/mp4">
             </video>
             <p class="has-text-centered" style="margin-top: 10px;">
-              <em>CCGS(Ours)</em>
+              <em>RGB</em>
             </p>
           </div>
           <!-- Video 2 -->
@@ -207,7 +243,7 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               preload="metadata"
               loading="lazy"
             >
-              <source src="./static/video/CCGS.mp4" type="video/mp4">
+              <source src="./static/video/CCGS_0.mp4" type="video/mp4">
             </video>
             <p class="has-text-centered" style="margin-top: 10px;">
               <em>CCGS(Ours)</em>
@@ -224,7 +260,61 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               preload="metadata"
               loading="lazy"
             >
-              <source src="./static/video/GG.mp4" type="video/mp4">
+              <source src="./static/video/GG_0.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>Gaussian Grouping</em>
+            </p>
+          </div>
+        </div>
+        <!-- Adding another row of videos -->
+        <div class="video-container">
+          <!-- Video 1 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/rgb_1.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>RGB</em>
+            </p>
+          </div>
+          <!-- Video 2 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/CCGS_1.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>CCGS(Ours)</em>
+            </p>
+          </div>
+          <!-- Video 3 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/GG_1.mp4" type="video/mp4">
             </video>
             <p class="has-text-centered" style="margin-top: 10px;">
               <em>Gaussian Grouping</em>
@@ -241,6 +331,9 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
   <div class="columns is-centered has-text-centered">
     <div class="column is-four-fifths">
       <h2 class="title is-3">3D gaussian segmentation</h2>
+      <p class="has-text-centered has-text-justified" style="margin: 20px auto; max-width: 916px;">
+        <em><strong style="color: #FF0000;">Note:</strong> For visualization clarity, only the positional and categorical information of the trained Gaussian points is presented.</em>
+      </p>
       <div class="container">
         <div class="row">
             <div class="viewer-container">
@@ -281,8 +374,8 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
         gap: 10px;
         padding: 10px;
         background-color: white;
-        align-items: center;  /* 添加居中对齐 */
-        margin: 0 auto;  /* 添加水平居中 */
+        align-items: center; 
+        margin: 0 auto;  
     }
     .row {
         display: flex;
@@ -291,7 +384,7 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
     .ply-box {
         width: 300px;
         height: 300px;
-        border: 2px dashed black;  /* 改为虚线边框 */
+        border: 2px dashed black;  
         position: relative;
         background-color: white;
         padding: 2px;
@@ -310,7 +403,7 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
     }
     canvas {
         display: block;
-        width: 100% !important;  /* 确保canvas填充容器 */
+        width: 100% !important;  
         height: 100% !important;
         /* 添加硬件加速 */
         transform: translateZ(0);
@@ -482,9 +575,28 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
   <div class="columns is-centered has-text-centered">
     <div class="column is-four-fifths">
       <div class="content-container">
-        <h2 class="title is-3">Deletion</h2>
-        <div class="video-container">
+        <h2 class="title is-3">Downstream Tasks</h2>
+        
+        <!-- Deletion videos -->
+        <div class="movement-video-container">
           <!-- Video 1 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/GT_del.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>Before <strong style="color: #FF0000;">Deletion</strong></em>
+            </p>
+          </div>
+          <!-- Video 2 -->
           <div class="video-wrapper2">
             <video 
               playsinline 
@@ -501,7 +613,7 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               <em>CCGS(Ours)</em>
             </p>
           </div>
-          <!-- Video 2 -->
+          <!-- Video 3 -->
           <div class="video-wrapper2">
             <video 
               playsinline 
@@ -518,7 +630,7 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               <em>OpenGaussian</em>
             </p>
           </div>
-          <!-- Video 3 -->
+          <!-- Video 4 -->
           <div class="video-wrapper2">
             <video 
               playsinline 
@@ -535,20 +647,29 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               <em>Gaussian Grouping</em>
             </p>
           </div>
+          
         </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Movement Section -->
-<section class="section">
-  <div class="columns is-centered has-text-centered">
-    <div class="column is-four-fifths">
-      <div class="content-container">
-        <h2 class="title is-3">Movement</h2>
-        <div class="video-container">
+        <!-- Movement videos -->
+        <div class="movement-video-container" style="margin-top: 2rem;">
           <!-- Video 1 -->
+          <div class="video-wrapper2">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop
+              controls
+              preload="metadata"
+              loading="lazy"
+            >
+              <source src="./static/video/GT_move.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered" style="margin-top: 10px;">
+              <em>Before <strong style="color: #4A90E2;">Movement</strong></em>
+            </p>
+          </div>
+          <!-- Video 2 -->
           <div class="video-wrapper2">
             <video 
               playsinline 
@@ -565,7 +686,7 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               <em>CCGS(Ours)</em>
             </p>
           </div>
-          <!-- Video 2 -->
+          <!-- Video 3 -->
           <div class="video-wrapper2">
             <video 
               playsinline 
@@ -582,7 +703,7 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               <em>OpenGaussian</em>
             </p>
           </div>
-          <!-- Video 3 -->
+          <!-- Video 4 -->
           <div class="video-wrapper2">
             <video 
               playsinline 
@@ -599,11 +720,26 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
               <em>Gaussian Grouping</em>
             </p>
           </div>
+          
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{hu2025pointmap,
+      title={Pointmap Association and Piecewise-Plane Constraint for Consistent and Compact 3D Gaussian Segmentation Field},
+      author={Hu, Wenhao and Chai, Wenhao and Hao, Shengyu and Cui, Xiaotong and Wen, Xuexiang and Hwang, Jenq-Neng and Wang, Gaoang},
+      journal={arXiv preprint arXiv:2502.16303},
+      year={2025}
+    }</code></pre>
+  </div>
+</section>
+
+
 
 <footer class="footer">
   <div class="container">
@@ -627,7 +763,6 @@ Experimental results on ScanNet and Replica datasets demonstrate that CCGS outpe
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // 为每个视频添加预加载和错误处理
     const videos = document.querySelectorAll('video');
     
     function preloadImage(url) {
